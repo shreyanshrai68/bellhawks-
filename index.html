@@ -460,4 +460,132 @@
 })();
 </script>
 </body>
-</html>
+</html><script>
+(function(){
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    const shareCard = document.createElement('div');
+    shareCard.className = 'card';
+    shareCard.style.marginTop = '12px';
+    shareCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">Share This Page</h2>';
+
+    const shareButtons = document.createElement('div');
+    shareButtons.style.display = 'flex';
+    shareButtons.style.gap = '8px';
+    shareButtons.style.marginTop = '12px';
+    shareButtons.style.flexWrap = 'wrap';
+
+    const platforms = [
+        {name: 'Facebook', icon: '📘', url: 'https://www.facebook.com/sharer/sharer.php?u='},
+        {name: 'Twitter', icon: '𝕏', url: 'https://twitter.com/intent/tweet?url='},
+        {name: 'LinkedIn', icon: '💼', url: 'https://www.linkedin.com/sharing/share-offsite/?url='},
+        {name: 'WhatsApp', icon: '💬', url: 'https://wa.me/?text='}
+    ];
+
+    platforms.forEach(platform => {
+        const btn = document.createElement('a');
+        btn.textContent = platform.icon + ' ' + platform.name;
+        btn.href = platform.url + encodeURIComponent(window.location.href);
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.style.padding = '8px 12px';
+        btn.style.borderRadius = '8px';
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#042028';
+        btn.style.textDecoration = 'none';
+        btn.style.fontSize = '14px';
+        btn.style.fontWeight = '500';
+
+        shareButtons.appendChild(btn);
+    });
+
+    shareCard.appendChild(shareButtons);
+
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(shareCard, footer);
+    else section.appendChild(shareCard);
+})();
+</script>
+<div class="card" style="margin-top: 12px;">
+    <h2 style="margin: 0 0 8px; font-size: 16px;">AI Quiz Section</h2>
+    <div id="quiz-container">
+        <p>Loading quiz...</p>
+    </div>
+</div>
+
+<script>
+(function() {
+    const quizContainer = document.getElementById('quiz-container');
+    const questions = [
+        {
+            question: "What is the capital of France?",
+            options: ["Berlin", "Madrid", "Paris", "Lisbon"],
+            answer: "Paris"
+        },
+        {
+            question: "Which planet is known as the Red Planet?",
+            options: ["Earth", "Mars", "Jupiter", "Saturn"],
+            answer: "Mars"
+        },
+        {
+            question: "What is the largest ocean on Earth?",
+            options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+            answer: "Pacific Ocean"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const question = questions[currentQuestionIndex];
+        quizContainer.innerHTML = `
+            <h3>${question.question}</h3>
+            ${question.options.map((option, index) => `
+                <button onclick="checkAnswer('${option}')">${option}</button>
+            `).join('')}
+        `;
+    }
+
+    window.checkAnswer = function(selectedOption) {
+        if (selectedOption === questions[currentQuestionIndex].answer) {
+            score++;
+        }
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            loadQuestion();
+        } else {
+            quizContainer.innerHTML = `<h3>Your score: ${score} out of ${questions.length}</h3>`;
+        }
+    };
+
+    loadQuestion();
+})();
+</script>
+<div class="card" style="margin-top: 12px;">
+    <h2 style="margin: 0 0 8px; font-size: 16px;">Comment Section</h2>
+    <form id="comment-form">
+        <textarea id="comment" rows="4" placeholder="Describe your problem here..." style="width: 100%; border-radius: 8px; padding: 8px;"></textarea>
+        <button type="submit" style="margin-top: 8px; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #042028; cursor: pointer;">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('comment-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const comment = document.getElementById('comment').value;
+        if (comment) {
+            // Send the comment to your email (this is a placeholder, actual implementation will require a backend service)
+            alert('Your comment has been submitted: ' + comment);
+            // Here you would typically send the comment to your server to handle the email sending
+            document.getElementById('comment').value = ''; // Clear the textarea
+        } else {
+            alert('Please enter a comment before submitting.');
+        }
+    });
+<div class="card" style="margin-top: 12px;">
+    <h2 style="margin: 0 0 8px; font-size: 16px;">Profile Picture</h2>
+    <img src="your-image-url-here.jpg" alt="Profile Picture" style="width: 100%; max-width: 300px; border-radius: 12px; margin-top: 12px;">
+<img src="your-new-im"" alt="Profile Picture" style="width: 100%; max-width: 30age-url-here.jpg"png0px; border-radius: 12px; margin-top: 12px;">
+
