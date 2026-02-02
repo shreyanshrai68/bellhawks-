@@ -584,8 +584,256 @@
             alert('Please enter a comment before submitting.');
         }
     });
-<div class="card" style="margin-top: 12px;">
-    <h2 style="margin: 0 0 8px; font-size: 16px;">Profile Picture</h2>
-    <img src="your-image-url-here.jpg" alt="Profile Picture" style="width: 100%; max-width: 300px; border-radius: 12px; margin-top: 12px;">
-<img src="your-new-im"" alt="Profile Picture" style="width: 100%; max-width: 30age-url-here.jpg"png0px; border-radius: 12px; margin-top: 12px;">
+<script>
+(function() {
+    const focusBtn = document.createElement('button');
+    focusBtn.textContent = '🎯 Focus Mode';
+    focusBtn.style.cssText = 'position:fixed;top:20px;right:20px;padding:10px 16px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;z-index:1000;';
+    
+    document.body.appendChild(focusBtn);
+    
+    let isFocusMode = false;
+    
+    focusBtn.addEventListener('click', function() {
+        isFocusMode = !isFocusMode;
+        
+        if (isFocusMode) {
+            focusBtn.textContent = '✕ Exit Focus';
+            focusBtn.style.background = '#ef4444';
+            document.querySelector('header').style.display = 'none';
+            document.querySelector('.aside').style.display = 'none';
+            document.querySelectorAll('main section .card:not(:first-of-type)').forEach(card => {
+                card.style.display = 'none';
+            });
+            document.querySelector('main').style.gridTemplateColumns = '1fr';
+        } else {
+            focusBtn.textContent = '🎯 Focus Mode';
+            focusBtn.style.background = 'var(--accent)';
+            document.querySelector('header').style.display = 'flex';
+            document.querySelector('.aside').style.display = 'block';
+            document.querySelectorAll('main section .card:not(:first-of-type)').forEach(card => {
+                card.style.display = 'block';
+            });
+            document.querySelector('main').style.gridTemplateColumns = '1fr 320px';
+        }
+    });
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
 
+    const gamificationCard = document.createElement('div');
+    gamificationCard.className = 'card';
+    gamificationCard.style.marginTop = '12px';
+    gamificationCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🏆 Your Achievements</h2>';
+
+    const statsContainer = document.createElement('div');
+    statsContainer.style.display = 'grid';
+    statsContainer.style.gridTemplateColumns = 'repeat(2,1fr)';
+    statsContainer.style.gap = '12px';
+    statsContainer.style.marginTop = '12px';
+
+    let streak = parseInt(localStorage.getItem('readingStreak') || '0');
+    const lastDate = localStorage.getItem('lastReadDate');
+    const today = new Date().toDateString();
+    if (lastDate !== today) {
+        streak++;
+        localStorage.setItem('readingStreak', streak);
+        localStorage.setItem('lastReadDate', today);
+    }
+
+    const streakBox = document.createElement('div');
+    streakBox.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);text-align:center;';
+    streakBox.innerHTML = `<div style="font-size:24px;margin-bottom:4px">🔥</div><strong>Reading Streak</strong><div style="color:var(--muted);font-size:14px">${streak} days</div>`;
+    statsContainer.appendChild(streakBox);
+
+    const badgeBox = document.createElement('div');
+    badgeBox.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);text-align:center;';
+    let speedReaderCount = parseInt(localStorage.getItem('quizzes') || '0');
+    const speedReaderBadge = speedReaderCount >= 5 ? '⭐ Earned' : `${speedReaderCount}/5`;
+    badgeBox.innerHTML = `<div style="font-size:24px;margin-bottom:4px">⚡</div><strong>Speed Reader</strong><div style="color:var(--muted);font-size:14px">${speedReaderBadge}</div>`;
+    statsContainer.appendChild(badgeBox);
+
+    const masterBox = document.createElement('div');
+    masterBox.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);text-align:center;';
+    const masterBadge = streak >= 10 ? '⭐ Earned' : `${streak}/10 days`;
+    masterBox.innerHTML = `<div style="font-size:24px;margin-bottom:4px">📚</div><strong>Knowledge Master</strong><div style="color:var(--muted);font-size:14px">${masterBadge}</div>`;
+    statsContainer.appendChild(masterBox);
+
+    const consistentBox = document.createElement('div');
+    consistentBox.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);text-align:center;';
+    const visitCount = parseInt(localStorage.getItem('visitCount') || '0') + 1;
+    localStorage.setItem('visitCount', visitCount);
+    const consistentBadge = visitCount >= 7 ? '⭐ Earned' : `${visitCount}/7 visits`;
+    consistentBox.innerHTML = `<div style="font-size:24px;margin-bottom:4px">🎯</div><strong>Consistent Learner</strong><div style="color:var(--muted);font-size:14px">${consistentBadge}</div>`;
+    statsContainer.appendChild(consistentBox);
+
+    gamificationCard.appendChild(statsContainer);
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(gamificationCard, footer);
+    else section.appendChild(gamificationCard);
+})();
+</script>
+<script>
+(function() {
+    const container = document.getElementById('chatbot-container');
+    if (!container) return;
+    
+    const input = document.getElementById('chatbot-input');
+    const sendBtn = document.getElementById('chatbot-send');
+    
+    const responses = {
+        'math': 'Mathematics includes algebra, geometry, trigonometry and statistics for Class 9.',
+        'science': 'Science covers physics, chemistry and biology fundamentals.',
+        'english': 'English includes grammar, literature and comprehension skills.',
+        'social': 'Social Science covers history, geography, civics and economics.',
+        'hindi': 'Hindi language learning focuses on grammar, literature and writing.',
+        'help': 'I can help with Class 9 subjects. Ask about Math, Science, English, Social Science or Hindi.'
+    };
+    
+    function addMessage(text, isUser) {
+        const msg = document.createElement('div');
+        msg.style.cssText = `padding: 8px; border-radius: 8px; ${isUser ? 'background: var(--accent); color: #042028; text-align: right;' : 'background: rgba(255,255,255,0.05); color: inherit;'}`;
+        msg.textContent = text;
+        container.appendChild(msg);
+        container.scrollTop = container.scrollHeight;
+    }
+    
+    function getResponse(question) {
+        const q = question.toLowerCase();
+        for (let key in responses) {
+            if (q.includes(key)) return responses[key];
+        }
+        return 'I can help with Class 9 studies. Try asking about: Math, Science, English, Social, Hindi or type "help"';
+    }
+    
+    sendBtn.addEventListener('click', () => {
+        const question = input.value.trim();
+        if (question) {
+            addMessage(question, true);
+            setTimeout(() => {
+                addMessage(getResponse(question), false);
+            }, 300);
+            input.value = '';
+        }
+    });
+    
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendBtn.click();
+    });
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    const resourceCard = document.createElement('div');
+    resourceCard.className = 'card';
+    resourceCard.style.marginTop = '12px';
+    resourceCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">📚 Study Resources</h2>';
+
+    const resources = [
+        { title: 'Video Tutorials', desc: 'Learn from expert instructors', icon: '🎥' },
+        { title: 'Practice Tests', desc: 'Test your knowledge regularly', icon: '✏️' },
+        { title: 'Flashcards', desc: 'Quick revision and memorization', icon: '🗂️' },
+        { title: 'Study Notes', desc: 'Comprehensive chapter notes', icon: '📝' }
+    ];
+
+    const grid = document.createElement('div');
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(2,minmax(0,1fr))';
+    grid.style.gap = '12px';
+    grid.style.marginTop = '12px';
+
+    resources.forEach(resource => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);cursor:pointer;transition:all 0.2s;';
+        item.innerHTML = `<div style="font-size:20px;margin-bottom:6px">${resource.icon}</div><strong>${resource.title}</strong><div style="color:var(--muted);font-size:12px">${resource.desc}</div>`;
+        item.addEventListener('mouseover', () => item.style.background = 'rgba(255,255,255,0.05)');
+        item.addEventListener('mouseout', () => item.style.background = 'rgba(255,255,255,0.01)');
+        grid.appendChild(item);
+    });
+
+    resourceCard.appendChild(grid);
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(resourceCard, footer);
+    else section.appendChild(resourceCard);
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    const linksCard = document.createElement('div');
+    linksCard.className = 'card';
+    linksCard.style.marginTop = '12px';
+    linksCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🔗 Study Resource Links</h2>';
+
+    const resources = [
+        { title: 'YouTube - Class 9 Math', url: 'https://www.youtube.com/results?search_query=class+9+mathematics+tutorial', icon: '▶️' },
+        { title: 'YouTube - Class 9 Science', url: 'https://www.youtube.com/results?search_query=class+9+science+tutorial', icon: '▶️' },
+        { title: 'Google - Math Resources', url: 'https://www.google.com/search?q=class+9+mathematics+study+materials', icon: '🔍' },
+        { title: 'Google - Science Resources', url: 'https://www.google.com/search?q=class+9+science+study+materials', icon: '🔍' },
+        { title: 'YouTube - English Class 9', url: 'https://www.youtube.com/results?search_query=class+9+english+tutorial', icon: '▶️' },
+        { title: 'Google - English Resources', url: 'https://www.google.com/search?q=class+9+english+study+guide', icon: '🔍' }
+    ];
+
+    const list = document.createElement('ul');
+    list.style.listStyle = 'none';
+    list.style.margin = '12px 0 0';
+    list.style.padding = '0';
+    list.style.display = 'grid';
+    list.style.gap = '8px';
+
+    resources.forEach(resource => {
+        const li = document.createElement('li');
+        li.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);';
+        
+        const info = document.createElement('div');
+        info.innerHTML = `<div style="font-size:16px;margin-right:8px">${resource.icon}</div><strong>${resource.title}</strong>`;
+        info.style.display = 'flex';
+        info.style.alignItems = 'center';
+        
+        const btn = document.createElement('a');
+        btn.textContent = 'Visit';
+        btn.href = resource.url;
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.style.cssText = 'padding:8px 12px;border-radius:6px;background:var(--accent);color:#042028;text-decoration:none;font-weight:500;';
+        
+        li.appendChild(info);
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+
+    linksCard.appendChild(list);
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(linksCard, footer);
+    else section.appendChild(linksCard);
+})();
+</script>
+<div class="card" style="margin-top: 12px;">
+    <h2 style="margin: 0 0 8px; font-size: 16px;">🔗 Study Resource Links</h2>
+    <ul style="list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px;">
+        <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.01);">
+            <div style="font-size: 16px;">📹 YouTube - Class 9 Math</div>
+            <a href="https://www.youtube.com/results?search_query=class+9+mathematics+tutorial" target="_blank" rel="noopener noreferrer" style="padding: 8px 12px; border-radius: 6px; background: var(--accent); color: #042028; text-decoration: none; font-weight: 500;">Visit</a>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.01);">
+            <div style="font-size: 16px;">📹 YouTube - Class 9 Science</div>
+            <a href="https://www.youtube.com/results?search_query=class+9+science+tutorial" target="_blank" rel="noopener noreferrer" style="padding: 8px 12px; border-radius: 6px; background: var(--accent); color: #042028; text-decoration: none; font-weight: 500;">Visit</a>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.01);">
+            <div style="font-size: 16px;">🔍 Google - Math Resources</div>
+            <a href="https://www.google.com/search?q=class+9+mathematics+study+materials" target="_blank" rel="noopener noreferrer" style="padding: 8px 12px; border-radius: 6px; background: var(--accent); color: #042028; text-decoration: none; font-weight: 500;">Visit</a>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.01);">
+            <div style="font-size: 16px;">🔍 Google - Science Resources</div>
+            <a href="https://www.google.com/search?q=class+9+science+study+materials" target="_blank" rel="noopener noreferrer" style="padding: 8px 12px; border-radius: 6px; background: var(--accent); color: #042028; text-decoration: none; font-weight: 500;">Visit</a>
+        </li>
+    </ul>
+</div>
