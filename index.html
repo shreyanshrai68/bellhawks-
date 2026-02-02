@@ -101,6 +101,30 @@
                 </div>
             </aside>
         </main>
+
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin: 0 0 8px; font-size: 16px;">AI Quiz Section</h2>
+            <div id="quiz-container">
+                <p>Loading quiz...</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin: 0 0 8px; font-size: 16px;">Comment Section</h2>
+            <form id="comment-form">
+                <textarea id="comment" rows="4" placeholder="Describe your problem here..." style="width: 100%; border-radius: 8px; padding: 8px;"></textarea>
+                <button type="submit" style="margin-top: 8px; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #042028; cursor: pointer;">Submit</button>
+            </form>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+            <h2 style="margin: 0 0 8px; font-size: 16px;">💬 AI Chatbot</h2>
+            <div id="chatbot-container" style="display: flex; flex-direction: column; gap: 8px; height: 400px; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; overflow-y: auto;">
+                <div style="color: var(--muted); font-size: 13px;">Ask me anything about Class 9 studies...</div>
+            </div>
+            <input type="text" id="chatbot-input" placeholder="Ask your question..." style="margin-top: 12px; padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.01); color: inherit; width: 100%;">
+            <button id="chatbot-send" style="margin-top: 8px; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #042028; cursor: pointer; width: 100%;">Send</button>
+        </div>
     </div>
 
 <script>
@@ -293,7 +317,6 @@
     }
 
 </script>
-
 <script>
 (function(){
         const arihantBooks = [
@@ -413,7 +436,7 @@
     const footer = section.querySelector('footer');
     if (footer) section.insertBefore(gkCard, footer);
     else section.appendChild(gkCard);
-})();
+// End of the last IIFE
 </script><script>
 (function(){
     const section = document.querySelector('main section');
@@ -460,7 +483,8 @@
 })();
 </script>
 </body>
-</html><script>
+</html>
+<script>
 (function(){
     const section = document.querySelector('main section');
     if (!section) return;
@@ -507,16 +531,9 @@
     else section.appendChild(shareCard);
 })();
 </script>
-<div class="card" style="margin-top: 12px;">
-    <h2 style="margin: 0 0 8px; font-size: 16px;">AI Quiz Section</h2>
-    <div id="quiz-container">
-        <p>Loading quiz...</p>
-    </div>
-</div>
-
 <script>
 (function() {
-    const quizContainer = document.getElementById('quiz-container');
+    const quizContainer = document.getElementById('quiz-container') || document.createElement('div');
     const questions = [
         {
             question: "What is the capital of France?",
@@ -563,27 +580,23 @@
     loadQuestion();
 })();
 </script>
-<div class="card" style="margin-top: 12px;">
-    <h2 style="margin: 0 0 8px; font-size: 16px;">Comment Section</h2>
-    <form id="comment-form">
-        <textarea id="comment" rows="4" placeholder="Describe your problem here..." style="width: 100%; border-radius: 8px; padding: 8px;"></textarea>
-        <button type="submit" style="margin-top: 8px; padding: 10px; border-radius: 8px; border: none; background: var(--accent); color: #042028; cursor: pointer;">Submit</button>
-    </form>
-</div>
-
 <script>
-    document.getElementById('comment-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const comment = document.getElementById('comment').value;
-        if (comment) {
-            // Send the comment to your email (this is a placeholder, actual implementation will require a backend service)
-            alert('Your comment has been submitted: ' + comment);
-            // Here you would typically send the comment to your server to handle the email sending
-            document.getElementById('comment').value = ''; // Clear the textarea
-        } else {
-            alert('Please enter a comment before submitting.');
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('comment-form');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const comment = document.getElementById('comment').value;
+                if (comment) {
+                    alert('Your comment has been submitted: ' + comment);
+                    document.getElementById('comment').value = '';
+                } else {
+                    alert('Please enter a comment before submitting.');
+                }
+            });
         }
     });
+</script>
 <script>
 (function() {
     const focusBtn = document.createElement('button');
@@ -837,4 +850,3 @@
         </li>
     </ul>
 </div>
-
