@@ -697,29 +697,52 @@
     const input = document.getElementById('chatbot-input');
     const sendBtn = document.getElementById('chatbot-send');
     
-    const responses = {
-        'math': 'Mathematics includes algebra, geometry, trigonometry and statistics for Class 9.',
-        'science': 'Science covers physics, chemistry and biology fundamentals.',
-        'english': 'English includes grammar, literature and comprehension skills.',
-        'social': 'Social Science covers history, geography, civics and economics.',
-        'hindi': 'Hindi language learning focuses on grammar, literature and writing.',
-        'help': 'I can help with Class 9 subjects. Ask about Math, Science, English, Social Science or Hindi.'
+    const aiKnowledge = {
+        'algebra': 'Algebra is the branch of math dealing with variables and equations. For Class 9, focus on linear equations, quadratic equations, and polynomials. Example: Solve 2x + 3 = 11 → x = 4',
+        'geometry': 'Geometry deals with shapes, angles, and proofs. Key topics: triangles, circles, congruence, similarity. Remember: sum of angles in a triangle = 180°',
+        'photosynthesis': 'Photosynthesis is the process where plants convert sunlight into chemical energy. Equation: 6CO2 + 6H2O + light → C6H12O6 + 6O2. It occurs in chloroplasts.',
+        'gravity': 'Gravity is a fundamental force that attracts objects. Newton\'s law: F = G(m1×m2)/r². On Earth, acceleration due to gravity (g) ≈ 9.8 m/s²',
+        'democracy': 'Democracy is a system of government where power rests with the people. Types: Direct (citizens vote on all issues) and Representative (citizens elect representatives).',
+        'mitochondria': 'Mitochondria are the powerhouses of cells. They produce ATP (energy) through cellular respiration. Structure: outer membrane, inner membrane, matrix, cristae.',
+        'equation': 'To solve an equation: isolate the variable on one side. Example: 3x - 5 = 10 → 3x = 15 → x = 5',
+        'atom': 'An atom is the basic unit of matter. It contains: nucleus (protons + neutrons) and electrons in orbitals. Atomic number = number of protons.',
+        'fraction': 'Fractions represent parts of a whole. Operations: Addition/Subtraction (find common denominator), Multiplication (multiply numerators and denominators), Division (multiply by reciprocal).',
+        'verb': 'A verb is a word showing action or state of being. Types: Action verbs (run, jump), Linking verbs (is, are), Modal verbs (can, must). Tenses: past, present, future.',
+        'help': 'I can help solve Class 9 problems! Ask me about: Algebra, Geometry, Photosynthesis, Gravity, Democracy, Mitochondria, Equations, Atoms, Fractions, Verbs, or describe your specific problem.'
     };
     
     function addMessage(text, isUser) {
         const msg = document.createElement('div');
-        msg.style.cssText = `padding: 8px; border-radius: 8px; ${isUser ? 'background: var(--accent); color: #042028; text-align: right;' : 'background: rgba(255,255,255,0.05); color: inherit;'}`;
+        msg.style.cssText = `padding: 8px; border-radius: 8px; margin: 4px 0; ${isUser ? 'background: var(--accent); color: #042028; text-align: right; margin-left: 20px;' : 'background: rgba(255,255,255,0.05); color: inherit; margin-right: 20px;'}`;
         msg.textContent = text;
         container.appendChild(msg);
         container.scrollTop = container.scrollHeight;
     }
     
-    function getResponse(question) {
-        const q = question.toLowerCase();
-        for (let key in responses) {
-            if (q.includes(key)) return responses[key];
+    function getAIResponse(question) {
+        const q = question.toLowerCase().trim();
+        
+        // Check for exact or partial matches
+        for (let topic in aiKnowledge) {
+            if (q.includes(topic)) {
+                return aiKnowledge[topic];
+            }
         }
-        return 'I can help with Class 9 studies. Try asking about: Math, Science, English, Social, Hindi or type "help"';
+        
+        // Smart responses for common question patterns
+        if (q.includes('what is') || q.includes('what\'s') || q.includes('define')) {
+            return 'That\'s a great question! Try asking about specific topics like: Algebra, Geometry, Photosynthesis, Gravity, Democracy, Mitochondria, Atoms, Fractions, or Verbs. Or type "help" for more options.';
+        }
+        
+        if (q.includes('how') || q.includes('explain')) {
+            return 'I can explain many topics! Ask me to explain concepts like Photosynthesis, Gravity, Democracy, Mitochondria, Equations, or any Class 9 subject. Be specific!';
+        }
+        
+        if (q.includes('solve') || q.includes('answer') || q.includes('problem')) {
+            return 'Share your specific problem! Example: "Solve 2x + 3 = 11" or "How does photosynthesis work?" I\'m here to help with Class 9 studies.';
+        }
+        
+        return 'I can help with Class 9 subjects! Try asking: "What is algebra?", "Explain photosynthesis", "Solve 2x + 5 = 15", or type "help" for more topics.';
     }
     
     sendBtn.addEventListener('click', () => {
@@ -727,8 +750,8 @@
         if (question) {
             addMessage(question, true);
             setTimeout(() => {
-                addMessage(getResponse(question), false);
-            }, 300);
+                addMessage(getAIResponse(question), false);
+            }, 500);
             input.value = '';
         }
     });
@@ -850,3 +873,215 @@
         </li>
     </ul>
 </div>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    const xpCard = document.createElement('div');
+    xpCard.className = 'card';
+    xpCard.style.marginTop = '12px';
+    xpCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">⚡ XP & Level Progress</h2>';
+
+    const container = document.createElement('div');
+    container.style.marginTop = '12px';
+
+    let totalXP = parseInt(localStorage.getItem('totalXP') || '0');
+    let level = Math.floor(totalXP / 500) + 1;
+    let xpInLevel = totalXP % 500;
+    let xpNeeded = 500;
+
+    const levelBox = document.createElement('div');
+    levelBox.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);';
+    levelBox.innerHTML = `<div><strong>Level ${level}</strong><div style="color:var(--muted);font-size:13px">You're doing great!</div></div><div style="font-size:24px">🌟</div>`;
+    container.appendChild(levelBox);
+
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = 'width:100%;height:20px;border-radius:10px;background:rgba(255,255,255,0.05);overflow:hidden;margin-bottom:8px;';
+    const fill = document.createElement('div');
+    fill.style.cssText = `width:${(xpInLevel/xpNeeded)*100}%;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);transition:width 0.3s;`;
+    progressBar.appendChild(fill);
+    container.appendChild(progressBar);
+
+    const xpText = document.createElement('div');
+    xpText.style.cssText = 'text-align:center;color:var(--muted);font-size:13px;margin-bottom:12px;';
+    xpText.textContent = `${xpInLevel} / ${xpNeeded} XP to Level ${level + 1}`;
+    container.appendChild(xpText);
+
+    const earnXpBtn = document.createElement('button');
+    earnXpBtn.textContent = '+ Earn 50 XP (Quiz)';
+    earnXpBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;margin-bottom:8px;';
+    earnXpBtn.addEventListener('click', () => {
+        totalXP += 50;
+        localStorage.setItem('totalXP', totalXP);
+        location.reload();
+    });
+    container.appendChild(earnXpBtn);
+
+    const dailyXpBtn = document.createElement('button');
+    dailyXpBtn.textContent = '+ Daily Bonus (10 XP)';
+    dailyXpBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:inherit;cursor:pointer;font-weight:600;';
+    const lastDailyXp = localStorage.getItem('lastDailyXp');
+    const today = new Date().toDateString();
+    if (lastDailyXp === today) {
+        dailyXpBtn.disabled = true;
+        dailyXpBtn.style.opacity = '0.5';
+        dailyXpBtn.textContent = '✓ Claimed Today';
+    } else {
+        dailyXpBtn.addEventListener('click', () => {
+            totalXP += 10;
+            localStorage.setItem('totalXP', totalXP);
+            localStorage.setItem('lastDailyXp', today);
+            location.reload();
+        });
+    }
+    container.appendChild(dailyXpBtn);
+
+    xpCard.appendChild(container);
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(xpCard, footer);
+    else section.appendChild(xpCard);
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    const quizzes = [
+        {
+            title: 'Biology - Human Body',
+            questions: [
+                { q: 'How many bones are in the human body?', opts: ['186', '206', '226', '246'], ans: '206' },
+                { q: 'What is the largest organ in the human body?', opts: ['Heart', 'Brain', 'Liver', 'Skin'], ans: 'Skin' },
+                { q: 'Which blood type is universal donor?', opts: ['O+', 'O-', 'AB+', 'AB-'], ans: 'O-' }
+            ]
+        },
+        {
+            title: 'Chemistry - Elements',
+            questions: [
+                { q: 'What is the chemical symbol for Gold?', opts: ['Go', 'Gd', 'Au', 'Ag'], ans: 'Au' },
+                { q: 'How many elements are in the periodic table?', opts: ['100', '115', '118', '120'], ans: '118' },
+                { q: 'What is the most reactive metal?', opts: ['Sodium', 'Potassium', 'Cesium', 'Francium'], ans: 'Francium' }
+            ]
+        },
+        {
+            title: 'Physics - Motion',
+            questions: [
+                { q: 'What is the SI unit of force?', opts: ['Dyne', 'Newton', 'Joule', 'Watt'], ans: 'Newton' },
+                { q: 'What does F=ma represent?', opts: ['Energy', 'Acceleration', 'Newtons Second Law', 'Momentum'], ans: 'Newtons Second Law' },
+                { q: 'What is the speed of light?', opts: ['3×10^8 m/s', '2×10^8 m/s', '4×10^8 m/s', '5×10^8 m/s'], ans: '3×10^8 m/s' }
+            ]
+        },
+        {
+            title: 'History - Ancient India',
+            questions: [
+                { q: 'Who was the founder of the Mauryan Empire?', opts: ['Ashoka', 'Chandragupta', 'Bindusara', 'Samrat'], ans: 'Chandragupta' },
+                { q: 'In which year did Ashoka fight the Kalinga War?', opts: ['250 BC', '260 BC', '270 BC', '280 BC'], ans: '260 BC' },
+                { q: 'What was the capital of the Mauryan Empire?', opts: ['Pataliputra', 'Ujjain', 'Taxila', 'Varanasi'], ans: 'Pataliputra' }
+            ]
+        },
+        {
+            title: 'Geography - Rivers',
+            questions: [
+                { q: 'Which is the longest river in India?', opts: ['Godavari', 'Brahmaputra', 'Ganges', 'Yamuna'], ans: 'Ganges' },
+                { q: 'The Nile River is in which continent?', opts: ['Asia', 'Africa', 'Europe', 'America'], ans: 'Africa' },
+                { q: 'Which river is known as the Yellow River?', opts: ['Yangtze', 'Yellow', 'Huang He', 'Mekong'], ans: 'Huang He' }
+            ]
+        },
+        {
+            title: 'Mathematics - Algebra',
+            questions: [
+                { q: 'What is the solution to x² - 5x + 6 = 0?', opts: ['x=1,2', 'x=2,3', 'x=3,4', 'x=1,3'], ans: 'x=2,3' },
+                { q: 'What is the square root of 144?', opts: ['10', '11', '12', '13'], ans: '12' },
+                { q: 'If 2x + 3 = 11, what is x?', opts: ['3', '4', '5', '6'], ans: '4' }
+            ]
+        },
+        {
+            title: 'English - Literature',
+            questions: [
+                { q: 'Who wrote "Romeo and Juliet"?', opts: ['Jane Austen', 'Charles Dickens', 'William Shakespeare', 'Mark Twain'], ans: 'William Shakespeare' },
+                { q: 'In which year was "Pride and Prejudice" published?', opts: ['1811', '1813', '1815', '1817'], ans: '1813' },
+                { q: 'Who is the author of "The Great Gatsby"?', opts: ['Hemingway', 'F. Scott Fitzgerald', 'Steinbeck', 'Faulkner'], ans: 'F. Scott Fitzgerald' }
+            ]
+        },
+        {
+            title: 'Social Studies - Government',
+            questions: [
+                { q: 'How many articles are in the Indian Constitution?', opts: ['365', '390', '410', '450'], ans: '390' },
+                { q: 'When was the Indian Constitution adopted?', opts: ['1947', '1949', '1950', '1952'], ans: '1950' },
+                { q: 'Who is the Father of the Indian Constitution?', opts: ['Gandhi', 'Nehru', 'Ambedkar', 'Patel'], ans: 'Ambedkar' }
+            ]
+        }
+    ];
+
+    quizzes.forEach((quizSet, setIndex) => {
+        const quizCard = document.createElement('div');
+        quizCard.className = 'card';
+        quizCard.style.marginTop = '12px';
+        quizCard.innerHTML = `<h2 style="margin:0 0 8px;font-size:16px">📝 ${quizSet.title}</h2>`;
+
+        const quizBtn = document.createElement('button');
+        quizBtn.textContent = 'Start Quiz';
+        quizBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;';
+        
+        quizBtn.addEventListener('click', () => launchQuiz(quizSet, quizCard));
+        quizCard.appendChild(quizBtn);
+
+        const footer = section.querySelector('footer');
+        if (footer) section.insertBefore(quizCard, footer);
+        else section.appendChild(quizCard);
+    });
+
+    function launchQuiz(quizSet, card) {
+        let currentQ = 0, score = 0;
+        const btn = card.querySelector('button');
+        btn.style.display = 'none';
+
+        function showQuestion() {
+            const q = quizSet.questions[currentQ];
+            card.innerHTML = `<h2 style="margin:0 0 8px;font-size:16px">📝 ${quizSet.title}</h2><h3 style="margin:12px 0">${q.q}</h3><div style="display:flex;flex-direction:column;gap:8px"></div>`;
+            
+            const optContainer = card.querySelector('div');
+            q.opts.forEach(opt => {
+                const optBtn = document.createElement('button');
+                optBtn.textContent = opt;
+                optBtn.style.cssText = 'padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:inherit;cursor:pointer;text-align:left;transition:all 0.2s;';
+                optBtn.addEventListener('mouseover', () => optBtn.style.background = 'rgba(255,255,255,0.05)');
+                optBtn.addEventListener('mouseout', () => optBtn.style.background = 'transparent');
+                optBtn.addEventListener('click', () => {
+                    if (opt === q.ans) score++;
+                    currentQ++;
+                    if (currentQ < quizSet.questions.length) showQuestion();
+                    else showResults();
+                });
+                optContainer.appendChild(optBtn);
+            });
+        }
+
+        function showResults() {
+            card.innerHTML = `<h2 style="margin:0 0 8px;font-size:16px">📝 ${quizSet.title}</h2><h3>Quiz Complete!</h3><p style="font-size:18px;margin:16px 0"><strong>Your Score: ${score} / ${quizSet.questions.length}</strong></p><p style="color:var(--muted)">${Math.round((score/quizSet.questions.length)*100)}% Correct</p><button style="width:100%;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;">Restart Quiz</button>`;
+            card.querySelector('button').addEventListener('click', () => launchQuiz(quizSet, card));
+        }
+
+        showQuestion();
+    }
+})();
+</script>
+<script>
+(function() {
+    const greeting = document.createElement('div');
+    greeting.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,var(--accent),#7c3aed);padding:32px;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.3);text-align:center;z-index:2000;animation:slideIn 0.5s ease-out;';
+    greeting.innerHTML = `
+        <div style="font-size:48px;margin-bottom:16px">👋</div>
+        <h2 style="margin:0 0 12px;font-size:28px;color:#042028">Hi! Welcome to bellhawks</h2>
+        <p style="margin:0 0 20px;color:#042028;opacity:0.9">Your learning journey starts here</p>
+        <button onclick="this.closest('div').style.display='none'" style="padding:10px 20px;border-radius:8px;border:none;background:#042028;color:var(--accent);cursor:pointer;font-weight:600;">Get Started</button>
+    `;
+    document.body.appendChild(greeting);
+    
+    const style = document.createElement('style');
+    style.textContent = '@keyframes slideIn { from { opacity:0;transform:translate(-50%,-60%); } to { opacity:1;transform:translate(-50%,-50%); } }';
+    document.head.appendChild(style);
+})();
+</script>
