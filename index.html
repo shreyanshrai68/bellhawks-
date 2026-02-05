@@ -640,19 +640,6 @@
 <audio id="welcomeSound">
   <source src="welcome.mp3" type="audio/mpeg">
 </audio>
-
-<script>
-window.addEventListener("load", function(){
-  const sound = document.getElementById("welcomeSound");
-  sound.volume = 0.7;
-
-  sound.play().catch(() => {
-    document.addEventListener("click", function(){
-      sound.play();
-    }, { once:true });
-  });
-});
-</script>
 </body>
 </html>
 <script>
@@ -1286,6 +1273,7 @@ window.addEventListener("load", function(){
     else section.appendChild(aboutCard);
 })();
 </script>
+
 
 
 
