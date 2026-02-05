@@ -671,6 +671,18 @@ window.onload = function () {
   window.speechSynthesis.speak(msg);
 };
 </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const msg = new SpeechSynthesisUtterance("Welcome to Bellhawks");
+  msg.rate = 1;
+  msg.pitch = 1;
+
+  // tiny delay trick
+  setTimeout(() => {
+    window.speechSynthesis.speak(msg);
+  }, 500);
+});
+</script>
 </body>
 </html>
 <script>
@@ -1304,6 +1316,7 @@ window.onload = function () {
     else section.appendChild(aboutCard);
 })();
 </script>
+
 
 
 
