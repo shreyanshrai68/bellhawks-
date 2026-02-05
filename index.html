@@ -662,6 +662,15 @@ window.addEventListener("load", function(){
 <audio id="wlc">
   <source src="audio/welcome.mp3" type="audio/mpeg">
 </audio>
+    <script>
+window.onload = function () {
+  let msg = new SpeechSynthesisUtterance();
+  msg.text = "Welcome to Bellhawks";
+  msg.rate = 1;
+  msg.pitch = 1;
+  window.speechSynthesis.speak(msg);
+};
+</script>
 </body>
 </html>
 <script>
@@ -1295,5 +1304,6 @@ window.addEventListener("load", function(){
     else section.appendChild(aboutCard);
 })();
 </script>
+
 
 
