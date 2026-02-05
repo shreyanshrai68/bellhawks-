@@ -44,6 +44,162 @@
             main{grid-template-columns:1fr}
             nav{display:none}
         }
+        /* ABOUT ME SECTION */
+.about-card{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.about-photo img{
+  width:200px;
+  height:200px;
+  object-fit:cover;
+  border-radius:50%;
+  border:4px solid var(--accent);
+}
+.about-card h3{
+  color:#ff6a00;   /* Name ka color */
+}
+
+.about-card p{
+  color:#222;     /* About text dark */
+  font-weight:500;
+}
+.about-card h3{
+  background:linear-gradient(45deg,#ff0080,#7928ca,#2afadf);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+/* About Card Box */
+.card{
+  background: linear-gradient(135deg,#1e1e2f,#2a2a40);
+  border-radius:16px;
+  padding:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  transition:0.3s ease;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+}
+
+/* About Layout */
+.about-card{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+/* Photo Style */
+.about-photo img{
+  width:180px;
+  height:180px;
+  object-fit:cover;
+  border-radius:50%;
+  border:4px solid #00f2fe;
+}
+
+/* Text */
+.about-card h3{
+  font-size:22px;
+  background:linear-gradient(45deg,#00f2fe,#4facfe);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.about-card p{
+  color:#f1f1f1;
+  font-size:15px;
+  line-height:1.6;
+}
+/* Fade In Animation */
+@keyframes fadeUp {
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* Apply Animation */
+.card{
+  animation: fadeUp 1s ease forwards;
+}
+
+/* Image Glow Pulse */
+@keyframes glow {
+  0%{ box-shadow:0 0 5px #00f2fe; }
+  50%{ box-shadow:0 0 20px #4facfe; }
+  100%{ box-shadow:0 0 5px #00f2fe; }
+}
+
+.about-photo img{
+  animation: glow 2s infinite;
+}
+/* ========== CARD FADE IN ========== */
+@keyframes fadeUp {
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.card{
+  animation: fadeUp 1s ease forwards;
+  transition:0.4s ease;
+}
+
+.card:hover{
+  transform:scale(1.03);
+}
+
+/* ========== IMAGE GLOW + ZOOM ========== */
+@keyframes glow {
+  0%{ box-shadow:0 0 5px #00f2fe; }
+  50%{ box-shadow:0 0 20px #4facfe; }
+  100%{ box-shadow:0 0 5px #00f2fe; }
+}
+
+.about-photo img{
+  animation: glow 2s infinite;
+  transition:0.4s ease;
+}
+
+.about-photo img:hover{
+  transform:scale(1.1);
+}
+
+/* ========== TEXT SLIDE ========== */
+@keyframes slideText {
+  from{
+    opacity:0;
+    transform:translateX(-30px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.about-card h3,
+.about-card p{
+  animation: slideText 1.2s ease forwards;
+}
+
+.about-card p{
+  color:#ca1616;
+}
+
     </style>
 </head>
 <body>
@@ -482,6 +638,44 @@
     else section.appendChild(contactCard);
 })();
 </script>
+<!-- ===== Welcome Voice System ===== -->
+
+<audio id="welcomeSound">
+  <source src="file:///C:/Users/PC/Downloads/welcome.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+window.addEventListener("load", function(){
+  const sound = document.getElementById("welcomeSound");
+  sound.volume = 0.7;
+
+  sound.play().catch(() => {
+    document.addEventListener("click", function(){
+      sound.play();
+    }, { once:true });
+  });
+});
+</script>
+
+<!-- =============================== -->
+<!-- Welcome Sound -->
+<audio id="welcomeSound">
+  <source src="welcome.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+window.addEventListener("load", function(){
+  const sound = document.getElementById("welcomeSound");
+  sound.volume = 0.7;
+
+  sound.play().catch(() => {
+    document.addEventListener("click", function(){
+      sound.play();
+    }, { once:true });
+  });
+});
+</script>
+
 </body>
 </html>
 <script>
@@ -1083,5 +1277,35 @@
     const style = document.createElement('style');
     style.textContent = '@keyframes slideIn { from { opacity:0;transform:translate(-50%,-60%); } to { opacity:1;transform:translate(-50%,-50%); } }';
     document.head.appendChild(style);
+})();
+</script>
+<script>
+(function(){
+    const section = document.querySelector('main section');
+    if(!section) return;
+
+    const aboutCard = document.createElement('div');
+    aboutCard.className = 'card';
+
+    aboutCard.innerHTML = `
+      <h2 style="margin:0 0 12px;font-size:16px">About Me</h2>
+      <div class="about-card">
+        <div class="about-photo">
+          <img src="myphoto.jpg" alt="My Photo">
+        </div>
+        <div>
+          <h3 style="margin:0">Shreyansh Rai</h3>
+          <p style="font-size:14px;margin-top:6px;color:#222;">
+            I am the creator of BellHawks.  
+            This website is built to help Class 9 students with NCERT books,
+            solutions, GK resources, and study materials for free.
+          </p>
+        </div>
+      </div>
+    `;
+
+    const footer = section.querySelector('footer');
+    if(footer) section.insertBefore(aboutCard, footer);
+    else section.appendChild(aboutCard);
 })();
 </script>
