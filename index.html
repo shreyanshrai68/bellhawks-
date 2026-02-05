@@ -199,8 +199,6 @@
 .about-card p{
   color:#ca1616;
 }
-
-    </style>
 </head>
 <body>
     <div class="container">
@@ -656,61 +654,18 @@ window.addEventListener("load", function(){
 });
 </script>
 <button onclick="document.getElementById('wlc').play()">
-  Play Welcome Sound
 </button>
 
 <audio id="wlc">
   <source src="audio/welcome.mp3" type="audio/mpeg">
 </audio>
-    <script>
-window.onload = function () {
-  let msg = new SpeechSynthesisUtterance();
-  msg.text = "Welcome to Bellhawks";
-  msg.rate = 1;
-  msg.pitch = 1;
-  window.speechSynthesis.speak(msg);
-};
-</script>
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const msg = new SpeechSynthesisUtterance("Welcome to Bellhawks");
-  msg.rate = 1;
-  msg.pitch = 1;
-
-  // tiny delay trick
-  setTimeout(() => {
-    window.speechSynthesis.speak(msg);
-  }, 500);
-});
-</script>
-    <style>
-/* Hide Play Welcome Sound button */
-button {
-  display: none !important;
-}
-</style>
-    <style>
-/* Hide any welcome buttons */
-button,
-#welcomeBtn,
-.play-sound,
-audio {
-  display: none !important;
-}
-</style>
-<script>
+    <script defer>
 window.addEventListener("load", function () {
-
   let msg = new SpeechSynthesisUtterance("Welcome to Bellhawks");
-
-  msg.rate = 1;
-  msg.pitch = 1;
-  msg.volume = 1;
-
   speechSynthesis.speak(msg);
-
 });
 </script>
+
 </body>
 </html>
 <script>
@@ -1344,6 +1299,7 @@ window.addEventListener("load", function () {
     else section.appendChild(aboutCard);
 })();
 </script>
+
 
 
 
