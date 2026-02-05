@@ -638,26 +638,6 @@
     else section.appendChild(contactCard);
 })();
 </script>
-<!-- ===== Welcome Voice System ===== -->
-
-<audio id="welcomeSound">
-  <source src="file:///C:/Users/PC/Downloads/welcome.mp3.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-window.addEventListener("load", function(){
-  const sound = document.getElementById("welcomeSound");
-  sound.volume = 0.7;
-
-  sound.play().catch(() => {
-    document.addEventListener("click", function(){
-      sound.play();
-    }, { once:true });
-  });
-});
-</script>
-
-<!-- =============================== -->
 <!-- Welcome Sound -->
 <audio id="welcomeSound">
   <source src="welcome.mp3" type="audio/mpeg">
@@ -1309,3 +1289,4 @@ window.addEventListener("load", function(){
     else section.appendChild(aboutCard);
 })();
 </script>
+
