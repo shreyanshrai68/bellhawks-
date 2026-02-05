@@ -689,6 +689,28 @@ button {
   display: none !important;
 }
 </style>
+    <style>
+/* Hide any welcome buttons */
+button,
+#welcomeBtn,
+.play-sound,
+audio {
+  display: none !important;
+}
+</style>
+<script>
+window.addEventListener("load", function () {
+
+  let msg = new SpeechSynthesisUtterance("Welcome to Bellhawks");
+
+  msg.rate = 1;
+  msg.pitch = 1;
+  msg.volume = 1;
+
+  speechSynthesis.speak(msg);
+
+});
+</script>
 </body>
 </html>
 <script>
@@ -1322,6 +1344,7 @@ button {
     else section.appendChild(aboutCard);
 })();
 </script>
+
 
 
 
