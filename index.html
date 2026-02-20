@@ -28,7 +28,7 @@
         a{color:inherit;text-decoration:none;opacity:.95}
         a:hover{opacity:1}
         main{
-            background:linear-gradient(180deg,rgb(255, 255, 255),#8e32de);
+            background:linear-gradient(180deg,rgb(11, 99, 207),#8e32de);
             border-radius:var(--radius);padding:28px;
             box-shadow:0 6px 30px rgb(192, 39, 67);
             display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start;
@@ -40,21 +40,20 @@
         .feat{padding:12px;border-radius:10px;background:rgba(255,255,255,.01)}
         .aside{position:sticky;top:32px}
         footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
-        @media (max-width:880px){
-            main{grid-template-columns:1fr}
-            nav{display:none}
-        }
-        <style>
+@media (max-width:880px){
+    main{grid-template-columns:1fr}
+    nav{display:none}
+}
 body{
   font-family:Arial, sans-serif;
   margin:0;
-  background:#f5f7fb;
+  background:#159fe9;
   transition:0.3s;
 }
 
 .dark{
   background:#121212;
-  color:white;
+  color:rgb(19, 242, 242);
 }
 
 /* Dark Button */
@@ -123,8 +122,6 @@ body{
 #bookmarks{
   text-align:center;
 }
-</style>
-        <style>
 
 .custom-about{
     width:100%;
@@ -215,8 +212,6 @@ body{
                 </div>
             </aside>
             <section id="about" class="custom-about">
-
-<section id="about" class="custom-about">
 
   <div class="about-card">
       <img src="images/myphoto.jpg">
@@ -1311,4 +1306,1247 @@ function bookmark(name){
 })();
 </script>
 <div id='tawk_698f21760b4b021c369e79b0'></div>
+<script src="https://embed.tawk.to/698f21760b4b021c369e79b0/1hbulh186"></script>
+<style>
+    @media (max-width: 768px) {
+        main {
+            grid-template-columns: 1fr !important;
+            padding: 16px !important;
+        }
+        
+        .subjects {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+            padding: 20px !important;
+            gap: 12px !important;
+        }
+        
+        .card {
+            padding: 16px !important;
+        }
+        
+        header {
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        nav {
+            width: 100%;
+            justify-content: flex-start;
+        }
+        
+        .about-card {
+            width: 90% !important;
+        }
+        
+        #darkToggle {
+            bottom: 60px;
+        }
+        
+        .search-bar {
+            width: 95% !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        body {
+            padding: 16px;
+        }
+        
+        main {
+            padding: 12px !important;
+        }
+        
+        h1 {
+            font-size: 18px;
+        }
+        
+        h2 {
+            font-size: 14px;
+        }
+    }
+</style>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
 
+    // Notification System
+    const notifCard = document.createElement('div');
+    notifCard.className = 'card';
+    notifCard.style.marginTop = '12px';
+    notifCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🔔 Study Reminders</h2>';
+    
+    const reminders = [
+        '📚 Complete daily reading sessions',
+        '✏️ Practice 10 math problems',
+        '🔬 Review science chapter notes',
+        '💪 Maintain your learning streak'
+    ];
+    
+    const reminderList = document.createElement('ul');
+    reminderList.style.cssText = 'list-style:none;margin:12px 0 0;padding:0;';
+    reminders.forEach(r => {
+        const li = document.createElement('li');
+        li.style.cssText = 'padding:8px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);';
+        li.textContent = r;
+        reminderList.appendChild(li);
+    });
+    notifCard.appendChild(reminderList);
+    
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(notifCard, footer);
+    else section.appendChild(notifCard);
+
+    // Time Tracker
+    const timeCard = document.createElement('div');
+    timeCard.className = 'card';
+    timeCard.style.marginTop = '12px';
+    timeCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">⏱️ Study Session Timer</h2>';
+    
+    let studying = false;
+    let timeSpent = parseInt(localStorage.getItem('dailyStudyTime') || '0');
+    
+    const timerDisplay = document.createElement('div');
+    timerDisplay.style.cssText = 'font-size:32px;font-weight:bold;text-align:center;margin:12px 0;color:var(--accent);';
+    timerDisplay.textContent = formatTime(timeSpent);
+    timeCard.appendChild(timerDisplay);
+    
+    function formatTime(seconds) {
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        return `${h}h ${m}m ${s}s`;
+    }
+    
+    const startBtn = document.createElement('button');
+    startBtn.textContent = '▶️ Start Session';
+    startBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;margin-bottom:8px;';
+    
+    const stopBtn = document.createElement('button');
+    stopBtn.textContent = '⏹️ Stop Session';
+    stopBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:#ef4444;color:white;cursor:pointer;font-weight:600;opacity:0.5;';
+    stopBtn.disabled = true;
+    
+    let timerInterval;
+    startBtn.addEventListener('click', () => {
+        studying = true;
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        stopBtn.style.opacity = '1';
+        
+        timerInterval = setInterval(() => {
+            timeSpent++;
+            timerDisplay.textContent = formatTime(timeSpent);
+            localStorage.setItem('dailyStudyTime', timeSpent);
+        }, 1000);
+    });
+    
+    stopBtn.addEventListener('click', () => {
+        studying = false;
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+        stopBtn.style.opacity = '0.5';
+        clearInterval(timerInterval);
+    });
+    
+    timeCard.appendChild(startBtn);
+    timeCard.appendChild(stopBtn);
+    
+    const footer2 = section.querySelector('footer');
+    if (footer2) section.insertBefore(timeCard, footer2);
+
+    // Performance Analytics
+    const analyticsCard = document.createElement('div');
+    analyticsCard.className = 'card';
+    analyticsCard.style.marginTop = '12px';
+    analyticsCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">📊 Performance Analytics</h2>';
+    
+    const stats = [
+        { label: 'Quizzes Taken', value: localStorage.getItem('quizzesTaken') || '0', icon: '📝' },
+        { label: 'Avg Score', value: (localStorage.getItem('avgScore') || '0') + '%', icon: '⭐' },
+        { label: 'Study Hours', value: Math.floor((parseInt(localStorage.getItem('dailyStudyTime') || '0')) / 3600) + 'h', icon: '⏰' },
+        { label: 'Articles Read', value: localStorage.getItem('articlesRead') || '0', icon: '📖' }
+    ];
+    
+    const statsGrid = document.createElement('div');
+    statsGrid.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px;';
+    
+    stats.forEach(stat => {
+        const box = document.createElement('div');
+        box.style.cssText = 'padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);text-align:center;';
+        box.innerHTML = `<div style="font-size:20px;margin-bottom:4px">${stat.icon}</div><div style="font-size:18px;font-weight:bold;">${stat.value}</div><div style="color:var(--muted);font-size:12px;">${stat.label}</div>`;
+        statsGrid.appendChild(box);
+    });
+    
+    analyticsCard.appendChild(statsGrid);
+    const footer3 = section.querySelector('footer');
+    if (footer3) section.insertBefore(analyticsCard, footer3);
+
+    // Leaderboard
+    const leaderCard = document.createElement('div');
+    leaderCard.className = 'card';
+    leaderCard.style.marginTop = '12px';
+    leaderCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🏅 Top Performers</h2>';
+    
+    const toppers = [
+        { name: 'Rahul Sharma', xp: 2500, badge: '🌟' },
+        { name: 'Priya Singh', xp: 2300, badge: '⭐' },
+        { name: 'Arjun Patel', xp: 2100, badge: '✨' },
+        { name: 'You', xp: parseInt(localStorage.getItem('totalXP') || '0'), badge: '👤' }
+    ];
+    
+    const leaderList = document.createElement('ul');
+    leaderList.style.cssText = 'list-style:none;margin:12px 0 0;padding:0;';
+    
+    toppers.sort((a, b) => b.xp - a.xp).forEach((user, idx) => {
+        const li = document.createElement('li');
+        li.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:10px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);';
+        li.innerHTML = `<div><span style="font-weight:bold;margin-right:8px">#${idx + 1}</span>${user.badge} ${user.name}</div><div style="color:var(--accent);font-weight:bold;">${user.xp} XP</div>`;
+        leaderList.appendChild(li);
+    });
+    
+    leaderCard.appendChild(leaderList);
+    const footer4 = section.querySelector('footer');
+    if (footer4) section.insertBefore(leaderCard, footer4);
+
+    // Goal Setting
+    const goalCard = document.createElement('div');
+    goalCard.className = 'card';
+    goalCard.style.marginTop = '12px';
+    goalCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎯 Learning Goals</h2>';
+    
+    const goalForm = document.createElement('div');
+    goalForm.style.cssText = 'display:flex;gap:8px;margin:12px 0;';
+    
+    const goalInput = document.createElement('input');
+    goalInput.placeholder = 'Add a study goal...';
+    goalInput.style.cssText = 'flex:1;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.01);color:inherit;';
+    
+    const goalBtn = document.createElement('button');
+    goalBtn.textContent = 'Add';
+    goalBtn.style.cssText = 'padding:10px 16px;border-radius:6px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;';
+    
+    goalForm.appendChild(goalInput);
+    goalForm.appendChild(goalBtn);
+    goalCard.appendChild(goalForm);
+    
+    const goalList = document.createElement('ul');
+    goalList.style.cssText = 'list-style:none;margin:12px 0 0;padding:0;';
+    goalCard.appendChild(goalList);
+    
+    goalBtn.addEventListener('click', () => {
+        if (goalInput.value.trim()) {
+            const li = document.createElement('li');
+            li.style.cssText = 'padding:10px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);display:flex;justify-content:space-between;align-items:center;';
+            
+            const goalText = document.createElement('span');
+            goalText.textContent = '📌 ' + goalInput.value;
+            
+            const delBtn = document.createElement('button');
+            delBtn.textContent = '✕';
+            delBtn.style.cssText = 'background:transparent;border:none;color:inherit;cursor:pointer;font-size:16px;';
+            delBtn.addEventListener('click', () => li.remove());
+            
+            li.appendChild(goalText);
+            li.appendChild(delBtn);
+            goalList.appendChild(li);
+            goalInput.value = '';
+        }
+    });
+    
+    const footer5 = section.querySelector('footer');
+    if (footer5) section.insertBefore(goalCard, footer5);
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    // 1. Doubt Forum Card
+    const doubtCard = document.createElement('div');
+    doubtCard.className = 'card';
+    doubtCard.style.marginTop = '12px';
+    doubtCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">❓ Ask Your Doubts</h2>';
+    const doubtForm = document.createElement('div');
+    doubtForm.innerHTML = '<textarea placeholder="Ask your doubt..." style="width:100%;padding:8px;border-radius:6px;margin-bottom:8px;"></textarea><button style="width:100%;padding:10px;background:var(--accent);color:#042028;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Post Doubt</button>';
+    doubtCard.appendChild(doubtForm);
+
+    // 2. Live Classes Schedule
+    const classCard = document.createElement('div');
+    classCard.className = 'card';
+    classCard.style.marginTop = '12px';
+    classCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">📺 Live Classes</h2>';
+    const classes = ['Math - 4:00 PM', 'Science - 5:30 PM', 'English - 6:00 PM'];
+    classes.forEach(c => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding:8px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);';
+        item.textContent = '🔴 ' + c;
+        classCard.appendChild(item);
+    });
+
+    // 3. Peer Study Groups
+    const groupCard = document.createElement('div');
+    groupCard.className = 'card';
+    groupCard.style.marginTop = '12px';
+    groupCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">👥 Study Groups</h2>';
+    const groups = ['Math Enthusiasts (42 members)', 'Science Explorers (38 members)', 'English Lovers (25 members)'];
+    groups.forEach(g => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding:8px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);cursor:pointer;';
+        item.textContent = '👫 ' + g;
+        item.addEventListener('mouseover', () => item.style.background = 'rgba(255,255,255,0.05)');
+        item.addEventListener('mouseout', () => item.style.background = 'rgba(255,255,255,0.01)');
+        groupCard.appendChild(item);
+    });
+
+    // 4. Certificates & Achievements
+    const certCard = document.createElement('div');
+    certCard.className = 'card';
+    certCard.style.marginTop = '12px';
+    certCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎓 My Certificates</h2>';
+    const certs = ['Math Expert', 'Science Master', 'Reading Star'];
+    const certGrid = document.createElement('div');
+    certGrid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;';
+    certs.forEach(cert => {
+        const box = document.createElement('div');
+        box.style.cssText = 'padding:10px;border-radius:6px;background:rgba(255,215,0,0.1);text-align:center;font-size:12px;';
+        box.innerHTML = '🏆 ' + cert;
+        certGrid.appendChild(box);
+    });
+    certCard.appendChild(certGrid);
+
+    // 5. Weekly Challenge
+    const chalCard = document.createElement('div');
+    chalCard.className = 'card';
+    chalCard.style.marginTop = '12px';
+    chalCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">⚔️ Weekly Challenge</h2><p style="color:var(--muted);margin:8px 0;">Solve 50 problems this week to earn 200 XP!</p><div style="width:100%;height:20px;background:rgba(255,255,255,0.05);border-radius:10px;overflow:hidden;"><div style="width:65%;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);"></div></div><p style="text-align:center;color:var(--muted);font-size:12px;margin-top:8px;">33/50 problems solved</p>';
+
+    // 6. Language Support
+    const langCard = document.createElement('div');
+    langCard.className = 'card';
+    langCard.style.marginTop = '12px';
+    langCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🌐 Languages</h2>';
+    const langs = ['English', 'Hindi', 'Marathi', 'Gujarati', 'Tamil'];
+    const langGrid = document.createElement('div');
+    langGrid.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;';
+    langs.forEach(lang => {
+        const btn = document.createElement('button');
+        btn.textContent = lang;
+        btn.style.cssText = 'padding:8px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;background:transparent;color:inherit;cursor:pointer;';
+        langGrid.appendChild(btn);
+    });
+    langCard.appendChild(langGrid);
+
+    // 7. Notes & Documents
+    const notesCard = document.createElement('div');
+    notesCard.className = 'card';
+    notesCard.style.marginTop = '12px';
+    notesCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">📝 My Notes</h2>';
+    const notesList = document.createElement('ul');
+    notesList.style.cssText = 'list-style:none;margin:8px 0;padding:0;';
+    const notes = ['Chapter 1 - Algebra', 'Ch 5 - Photosynthesis', 'History Revision Notes'];
+    notes.forEach(note => {
+        const li = document.createElement('li');
+        li.style.cssText = 'padding:8px;margin:4px 0;border-radius:6px;background:rgba(255,255,255,0.01);';
+        li.innerHTML = '📄 ' + note + ' <button style="float:right;background:transparent;border:none;cursor:pointer;">⬇️</button>';
+        notesList.appendChild(li);
+    });
+    notesCard.appendChild(notesList);
+
+    // 8. Parent Progress Dashboard
+    const parentCard = document.createElement('div');
+    parentCard.className = 'card';
+    parentCard.style.marginTop = '12px';
+    parentCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">👨‍👩‍👧 Parent Dashboard</h2>';
+    const parentInfo = document.createElement('div');
+    parentInfo.innerHTML = '<p style="color:var(--muted);margin:8px 0;">Weekly Progress Report</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="padding:10px;border-radius:6px;background:rgba(100,200,100,0.1);"><strong>✓</strong> 15/20 Topics Completed</div><div style="padding:10px;border-radius:6px;background:rgba(100,150,200,0.1);"><strong>⭐</strong> Average: 78%</div></div><button style="width:100%;margin-top:8px;padding:8px;background:var(--accent);color:#042028;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Send Report</button>';
+    parentCard.appendChild(parentInfo);
+
+    // 9. Marketplace Store
+    const shopCard = document.createElement('div');
+    shopCard.className = 'card';
+    shopCard.style.marginTop = '12px';
+    shopCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🛍️ Rewards Shop</h2>';
+    const shopGrid = document.createElement('div');
+    shopGrid.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;';
+    const items = [{name:'Premium Notes', xp:'500'}, {name:'Ad-Free Mode', xp:'800'}, {name:'Expert Session', xp:'1000'}, {name:'Certificate', xp:'600'}];
+    items.forEach(item => {
+        const box = document.createElement('div');
+        box.style.cssText = 'padding:10px;border-radius:6px;background:rgba(255,215,0,0.05);text-align:center;cursor:pointer;';
+        box.innerHTML = `<div style="font-weight:bold;margin-bottom:4px;">${item.name}</div><div style="color:var(--accent);font-size:12px;">${item.xp} XP</div>`;
+        shopGrid.appendChild(box);
+    });
+    shopCard.appendChild(shopGrid);
+
+    // 10. Offline Mode
+    const offlineCard = document.createElement('div');
+    offlineCard.className = 'card';
+    offlineCard.style.marginTop = '12px';
+    offlineCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">📵 Offline Mode</h2><p style="color:var(--muted);margin:8px 0;">Download content to study without internet</p>';
+    const downBtn = document.createElement('button');
+    downBtn.textContent = '⬇️ Download All Resources (45 MB)';
+    downBtn.style.cssText = 'width:100%;padding:10px;background:var(--accent);color:#042028;border:none;border-radius:6px;cursor:pointer;font-weight:600;';
+    downBtn.addEventListener('click', () => alert('Downloading... Check back soon!'));
+    offlineCard.appendChild(downBtn);
+
+    // 11. Motivation Quote
+    const quoteCard = document.createElement('div');
+    quoteCard.className = 'card';
+    quoteCard.style.marginTop = '12px';
+    const quotes = [
+        '"Success is 10% inspiration and 90% perspiration." - Edison',
+        '"The expert in anything was once a beginner." - Hayes',
+        '"Education is the most powerful weapon." - Mandela',
+        '"Knowledge is power." - Bacon'
+    ];
+    quoteCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">💬 Daily Motivation</h2><p style="color:var(--accent);font-style:italic;margin:12px 0;padding:12px;border-left:3px solid var(--accent);">' + quotes[Math.floor(Math.random()*quotes.length)] + '</p>';
+
+    const footer = section.querySelector('footer');
+    if (footer) {
+        section.insertBefore(doubtCard, footer);
+        section.insertBefore(classCard, footer);
+        section.insertBefore(groupCard, footer);
+        section.insertBefore(certCard, footer);
+        section.insertBefore(chalCard, footer);
+        section.insertBefore(langCard, footer);
+        section.insertBefore(notesCard, footer);
+        section.insertBefore(parentCard, footer);
+        section.insertBefore(shopCard, footer);
+        section.insertBefore(offlineCard, footer);
+        section.insertBefore(quoteCard, footer);
+    }
+})();
+</script>
+<script>
+(function() {
+    const utterance = new SpeechSynthesisUtterance('Welcome to bellhawks');
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 0.8;
+    
+    window.addEventListener('load', () => {
+        speechSynthesis.speak(utterance);
+    });
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    // Sudoku Game
+    const sudokuCard = document.createElement('div');
+    sudokuCard.className = 'card';
+    sudokuCard.style.marginTop = '12px';
+    sudokuCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🔢 Sudoku Game</h2>';
+    
+    const sudokuBtn = document.createElement('button');
+    sudokuBtn.textContent = '▶️ Play Sudoku';
+    sudokuBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:var(--accent);color:#042028;cursor:pointer;font-weight:600;';
+    sudokuBtn.addEventListener('click', () => {
+        alert('🔢 Sudoku Game\n\nFill the 9x9 grid so that each row, column, and 3x3 box contains digits 1-9.\n\nDifficulty: Easy\n\nStarting puzzle loaded!');
+    });
+    sudokuCard.appendChild(sudokuBtn);
+    
+    // Pattern Game
+    const patternCard = document.createElement('div');
+    patternCard.className = 'card';
+    patternCard.style.marginTop = '12px';
+    patternCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎨 Pattern Game</h2>';
+    
+    const patternBtn = document.createElement('button');
+    patternBtn.textContent = '▶️ Play Pattern Game';
+    patternBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:#10b981;color:white;cursor:pointer;font-weight:600;';
+    patternBtn.addEventListener('click', () => {
+        alert('🎨 Pattern Game\n\nMemorize the color sequence and repeat it!\n\nLevel 1: 3 colors\nLevel 2: 5 colors\nLevel 3: 7 colors\n\nReady to start?');
+    });
+    patternCard.appendChild(patternBtn);
+    
+    // Anagrams Game
+    const anagramCard = document.createElement('div');
+    anagramCard.className = 'card';
+    anagramCard.style.marginTop = '12px';
+    anagramCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🔤 Anagrams Game</h2>';
+    
+    const anagrams = [
+        { scrambled: 'THAEMCIMAS', answer: 'MATHEMATICS' },
+        { scrambled: 'SCECNI', answer: 'SCIENCE' },
+        { scrambled: 'SOYTRIH', answer: 'HISTORY' },
+        { scrambled: 'NGLSHE', answer: 'ENGLISH' },
+        { scrambled: 'REBGAL', answer: 'ALGEBRA' }
+    ];
+    
+    let currentAnagram = 0;
+    
+    const anagramDisplay = document.createElement('div');
+    anagramDisplay.style.cssText = 'text-align:center;margin:12px 0;';
+    anagramDisplay.innerHTML = `<div style="font-size:24px;font-weight:bold;color:var(--accent);margin-bottom:12px;">${anagrams[0].scrambled}</div>`;
+    anagramCard.appendChild(anagramDisplay);
+    
+    const anagramInput = document.createElement('input');
+    anagramInput.placeholder = 'Type your answer...';
+    anagramInput.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.01);color:inherit;margin-bottom:8px;';
+    anagramCard.appendChild(anagramInput);
+    
+    const checkBtn = document.createElement('button');
+    checkBtn.textContent = '✓ Check Answer';
+    checkBtn.style.cssText = 'width:100%;padding:10px;border-radius:8px;border:none;background:#f59e0b;color:#042028;cursor:pointer;font-weight:600;';
+    checkBtn.addEventListener('click', () => {
+        if (anagramInput.value.toUpperCase() === anagrams[currentAnagram].answer) {
+            alert('✓ Correct! Well done!');
+            currentAnagram++;
+            if (currentAnagram < anagrams.length) {
+                anagramDisplay.innerHTML = `<div style="font-size:24px;font-weight:bold;color:var(--accent);margin-bottom:12px;">${anagrams[currentAnagram].scrambled}</div>`;
+                anagramInput.value = '';
+            } else {
+                anagramDisplay.innerHTML = '<div style="font-size:20px;color:var(--accent);">🎉 You completed all anagrams!</div>';
+                checkBtn.disabled = true;
+            }
+        } else {
+            alert('✗ Try again!');
+            anagramInput.value = '';
+        }
+    });
+    anagramCard.appendChild(checkBtn);
+    
+    const footer = section.querySelector('footer');
+    if (footer) {
+        section.insertBefore(sudokuCard, footer);
+        section.insertBefore(patternCard, footer);
+        section.insertBefore(anagramCard, footer);
+    }
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    // Enhanced Visual Effects
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 5px rgba(6, 182, 212, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(6, 182, 212, 0.8); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .enhanced-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(124, 58, 237, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            backdrop-filter: blur(10px);
+            animation: slideInRight 0.5s ease-out;
+        }
+        
+        .enhanced-card:hover {
+            border-color: rgba(6, 182, 212, 0.6);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s;
+        }
+        
+        .btn-animated:hover::before {
+            left: 100%;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Featured Courses Section
+    const coursesCard = document.createElement('div');
+    coursesCard.className = 'card enhanced-card';
+    coursesCard.style.marginTop = '12px';
+    coursesCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px;background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⭐ Featured Courses</h2>';
+    
+    const courses = [
+        { title: 'Advanced Algebra', level: 'Intermediate', students: '2.5K', rating: '4.9' },
+        { title: 'Physics Fundamentals', level: 'Beginner', students: '3.2K', rating: '4.8' },
+        { title: 'Chemistry Mastery', level: 'Advanced', students: '1.8K', rating: '4.95' },
+        { title: 'Biology Essentials', level: 'Beginner', students: '4.1K', rating: '4.7' }
+    ];
+    
+    const courseGrid = document.createElement('div');
+    courseGrid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px;';
+    
+    courses.forEach(course => {
+        const box = document.createElement('div');
+        box.style.cssText = `
+            padding:16px;border-radius:12px;
+            background:linear-gradient(135deg,rgba(6,182,212,0.15),rgba(124,58,237,0.15));
+            border:1px solid rgba(6,182,212,0.3);
+            cursor:pointer;transition:all 0.3s;
+        `;
+        box.innerHTML = `
+            <div style="font-weight:bold;margin-bottom:8px;color:var(--accent);">${course.title}</div>
+            <div style="font-size:12px;color:var(--muted);margin:4px 0;">📚 ${course.level}</div>
+            <div style="font-size:12px;color:var(--muted);margin:4px 0;">👥 ${course.students} enrolled</div>
+            <div style="font-size:12px;color:#f59e0b;margin-top:8px;">⭐ ${course.rating}/5.0</div>
+        `;
+        box.addEventListener('mouseover', () => {
+            box.style.transform = 'translateY(-5px)';
+            box.style.boxShadow = '0 10px 25px rgba(6,182,212,0.2)';
+        });
+        box.addEventListener('mouseout', () => {
+            box.style.transform = 'translateY(0)';
+            box.style.boxShadow = 'none';
+        });
+        courseGrid.appendChild(box);
+    });
+    
+    coursesCard.appendChild(courseGrid);
+
+    // Interactive Stats
+    const statsCard = document.createElement('div');
+    statsCard.className = 'card enhanced-card';
+    statsCard.style.marginTop = '12px';
+    statsCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px;background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">📈 Learning Stats</h2>';
+    
+    const statBoxes = document.createElement('div');
+    statBoxes.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:12px;';
+    
+    const stats = [
+        { label: 'Topics Completed', value: '24/50', icon: '✅', color: '#10b981' },
+        { label: 'Accuracy Rate', value: '87%', icon: '🎯', color: '#f59e0b' },
+        { label: 'Current Streak', value: '12 days', icon: '🔥', color: '#ef4444' },
+        { label: 'Ranking', value: '#42', icon: '🏆', color: '#a78bfa' }
+    ];
+    
+    stats.forEach(stat => {
+        const box = document.createElement('div');
+        box.style.cssText = `
+            padding:12px;border-radius:10px;
+            background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+            border:1px solid rgba(255,255,255,0.1);
+            text-align:center;transition:all 0.3s;
+        `;
+        box.innerHTML = `
+            <div style="font-size:24px;margin-bottom:6px;">${stat.icon}</div>
+            <div style="font-size:18px;font-weight:bold;color:${stat.color};">${stat.value}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px;">${stat.label}</div>
+        `;
+        box.addEventListener('mouseover', () => {
+            box.style.transform = 'scale(1.05)';
+            box.style.boxShadow = `0 0 15px ${stat.color}33`;
+        });
+        box.addEventListener('mouseout', () => {
+            box.style.transform = 'scale(1)';
+            box.style.boxShadow = 'none';
+        });
+        statBoxes.appendChild(box);
+    });
+    
+    statsCard.appendChild(statBoxes);
+
+    // Interactive Subject Explorer
+    const explorerCard = document.createElement('div');
+    explorerCard.className = 'card enhanced-card';
+    explorerCard.style.marginTop = '12px';
+    explorerCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px;background:linear-gradient(135deg,var(--accent),#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🔍 Subject Explorer</h2>';
+    
+    const subjects = [
+        { name: '📐 Geometry', progress: 65, color: '#06b6d4' },
+        { name: '🔬 Periodic Table', progress: 48, color: '#7c3aed' },
+        { name: '🧬 Cell Biology', progress: 82, color: '#06b6d4' },
+        { name: '🌍 World History', progress: 71, color: '#a78bfa' },
+        { name: '📚 Literature', progress: 59, color: '#f59e0b' },
+        { name: '🔢 Calculus', progress: 38, color: '#ef4444' }
+    ];
+    
+    const subjectGrid = document.createElement('div');
+    subjectGrid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;';
+    
+    subjects.forEach(subject => {
+        const subBox = document.createElement('div');
+        subBox.style.cssText = `
+            padding:12px;border-radius:10px;
+            background:rgba(255,255,255,0.02);
+            border:1px solid rgba(255,255,255,0.05);
+            cursor:pointer;transition:all 0.3s;
+        `;
+        subBox.innerHTML = `
+            <div style="font-weight:bold;margin-bottom:8px;color:${subject.color};">${subject.name}</div>
+            <div style="width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;">
+                <div style="width:${subject.progress}%;height:100%;background:linear-gradient(90deg,${subject.color},${subject.color}dd);transition:width 0.5s;"></div>
+            </div>
+            <div style="text-align:right;font-size:11px;color:var(--muted);margin-top:6px;">${subject.progress}%</div>
+        `;
+        subBox.addEventListener('mouseover', () => {
+            subBox.style.transform = 'translateY(-3px)';
+            subBox.style.boxShadow = `0 8px 16px ${subject.color}22`;
+        });
+        subBox.addEventListener('mouseout', () => {
+            subBox.style.transform = 'translateY(0)';
+            subBox.style.boxShadow = 'none';
+        });
+        subjectGrid.appendChild(subBox);
+    });
+    
+    explorerCard.appendChild(subjectGrid);
+
+    // Call to Action Banner
+    const ctaCard = document.createElement('div');
+    ctaCard.style.cssText = `
+        margin-top:12px;padding:24px;border-radius:12px;
+        background:linear-gradient(135deg,var(--accent),#7c3aed);
+        text-align:center;position:relative;overflow:hidden;
+    `;
+    const ctaOverlay = document.createElement('div');
+    ctaOverlay.style.cssText = `
+        position:absolute;top:0;left:0;right:0;bottom:0;
+        background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,50 Q300,0 600,50 T1200,50 L1200,120 L0,120 Z" fill="rgba(255,255,255,0.05)"/></svg>');
+        background-size:cover;
+    `;
+    ctaCard.appendChild(ctaOverlay);
+    ctaCard.innerHTML = `
+        <div style="position:relative;z-index:1;color:white;">
+            <h2 style="margin:0 0 12px;font-size:24px;">🚀 Start Your Learning Journey Today!</h2>
+            <p style="margin:0 0 16px;opacity:0.9;">Join thousands of students already achieving their goals</p>
+            <button class="btn-animated" style="padding:12px 24px;border-radius:8px;border:none;background:white;color:var(--accent);cursor:pointer;font-weight:600;font-size:16px;">Get Started Now →</button>
+        </div>
+    `;
+
+    const footer = section.querySelector('footer');
+    if (footer) {
+        section.insertBefore(coursesCard, footer);
+        section.insertBefore(statsCard, footer);
+        section.insertBefore(explorerCard, footer);
+        section.insertBefore(ctaCard, footer);
+    }
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    // 1. Daily Spin Wheel
+    const spinCard = document.createElement('div');
+    spinCard.className = 'card enhanced-card';
+    spinCard.style.marginTop = '12px';
+    spinCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎡 Daily Spin Wheel</h2>';
+    
+    const spinBtn = document.createElement('button');
+    spinBtn.textContent = '🎰 Spin for Rewards';
+    spinBtn.style.cssText = 'width:100%;padding:12px;border-radius:8px;border:none;background:linear-gradient(135deg,#f59e0b,#ef4444);color:white;cursor:pointer;font-weight:600;margin-bottom:8px;';
+    
+    const lastSpin = localStorage.getItem('lastSpin');
+    const today = new Date().toDateString();
+    if (lastSpin === today) {
+        spinBtn.disabled = true;
+        spinBtn.textContent = '✓ Already Spun Today';
+        spinBtn.style.opacity = '0.5';
+    } else {
+        spinBtn.addEventListener('click', () => {
+            const rewards = [50, 100, 150, 200, 75, 125, '2x XP', 'Bonus Points'];
+            const reward = rewards[Math.floor(Math.random() * rewards.length)];
+            alert(`🎉 You won: ${reward}!`);
+            localStorage.setItem('lastSpin', today);
+            spinBtn.disabled = true;
+            spinBtn.textContent = '✓ Already Spun Today';
+            spinBtn.style.opacity = '0.5';
+        });
+    }
+    spinCard.appendChild(spinBtn);
+
+    // 2. Mini Games Arcade
+    const arcadeCard = document.createElement('div');
+    arcadeCard.className = 'card enhanced-card';
+    arcadeCard.style.marginTop = '12px';
+    arcadeCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎮 Mini Games Arcade</h2>';
+    
+    const games = [
+        { name: 'Quick Math', icon: '🔢', reward: '50 XP' },
+        { name: 'Word Sprint', icon: '📝', reward: '75 XP' },
+        { name: 'Memory Master', icon: '🧠', reward: '60 XP' },
+        { name: 'Logic Puzzle', icon: '🔮', reward: '100 XP' }
+    ];
+    
+    const gameGrid = document.createElement('div');
+    gameGrid.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;';
+    
+    games.forEach(game => {
+        const btn = document.createElement('button');
+        btn.style.cssText = `
+            padding:12px;border-radius:8px;border:none;
+            background:rgba(6,182,212,0.2);color:inherit;cursor:pointer;
+            transition:all 0.3s;font-weight:600;
+        `;
+        btn.innerHTML = `<div style="font-size:24px;margin-bottom:4px;">${game.icon}</div><div style="font-size:12px;">${game.name}</div><div style="font-size:10px;color:var(--accent);">${game.reward}</div>`;
+        btn.addEventListener('mouseover', () => btn.style.background = 'rgba(6,182,212,0.4)');
+        btn.addEventListener('mouseout', () => btn.style.background = 'rgba(6,182,212,0.2)');
+        btn.addEventListener('click', () => alert(`🎮 ${game.name} started!\n\nEarn ${game.reward} by completing!`));
+        gameGrid.appendChild(btn);
+    });
+    arcadeCard.appendChild(gameGrid);
+
+    // 3. Achievement Badges System
+    const badgesCard = document.createElement('div');
+    badgesCard.className = 'card enhanced-card';
+    badgesCard.style.marginTop = '12px';
+    badgesCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🏅 Achievement Badges</h2>';
+    
+    const badges = [
+        { name: 'Night Owl', icon: '🦉', desc: 'Study after 9 PM', unlocked: true },
+        { name: 'Early Bird', icon: '🐦', desc: 'Study before 8 AM', unlocked: true },
+        { name: 'Perfect Streak', icon: '⚡', desc: '30 day streak', unlocked: false },
+        { name: 'Quiz Master', icon: '👑', desc: '100% on 10 quizzes', unlocked: false },
+        { name: 'Social Butterfly', icon: '🦋', desc: 'Join 5 study groups', unlocked: true },
+        { name: 'Knowledge Seeker', icon: '📚', desc: 'Read 100 articles', unlocked: false }
+    ];
+    
+    const badgeGrid = document.createElement('div');
+    badgeGrid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px;';
+    
+    badges.forEach(badge => {
+        const box = document.createElement('div');
+        box.style.cssText = `
+            padding:12px;border-radius:10px;text-align:center;
+            background:${badge.unlocked ? 'rgba(245,158,11,0.2)' : 'rgba(107,114,128,0.2)'};
+            border:2px solid ${badge.unlocked ? '#f59e0b' : '#6b7280'};
+            opacity:${badge.unlocked ? '1' : '0.6'};
+            cursor:pointer;transition:all 0.3s;
+        `;
+        box.innerHTML = `
+            <div style="font-size:28px;margin-bottom:4px;">${badge.icon}</div>
+            <div style="font-size:11px;font-weight:bold;margin-bottom:2px;">${badge.name}</div>
+            <div style="font-size:9px;color:var(--muted);">${badge.desc}</div>
+        `;
+        box.addEventListener('mouseover', () => {
+            if (badge.unlocked) box.style.transform = 'scale(1.1)';
+        });
+        box.addEventListener('mouseout', () => box.style.transform = 'scale(1)');
+        badgeGrid.appendChild(box);
+    });
+    badgesCard.appendChild(badgeGrid);
+
+    // 4. Friend Leaderboard with Details
+    const friendsCard = document.createElement('div');
+    friendsCard.className = 'card enhanced-card';
+    friendsCard.style.marginTop = '12px';
+    friendsCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">👫 Friends Leaderboard</h2>';
+    
+    const friends = [
+        { rank: 1, name: 'Rahul Kumar', xp: 5200, avatar: '👨', status: 'Online' },
+        { rank: 2, name: 'Priya Singh', xp: 4800, avatar: '👩', status: 'Online' },
+        { rank: 3, name: 'Aditya Patel', xp: 4500, avatar: '👨', status: 'Away' },
+        { rank: 4, name: 'You', xp: parseInt(localStorage.getItem('totalXP') || '0'), avatar: '👤', status: 'Online' }
+    ];
+    
+    const friendsList = document.createElement('ul');
+    friendsList.style.cssText = 'list-style:none;margin:8px 0 0;padding:0;';
+    
+    friends.sort((a, b) => b.xp - a.xp).forEach((friend, idx) => {
+        const li = document.createElement('li');
+        li.style.cssText = `
+            display:flex;justify-content:space-between;align-items:center;
+            padding:10px;margin:4px 0;border-radius:8px;
+            background:rgba(6,182,212,0.1);transition:all 0.3s;
+        `;
+        li.innerHTML = `
+            <div style="display:flex;align-items:center;gap:8px;flex:1;">
+                <div style="font-size:24px;">${friend.avatar}</div>
+                <div style="flex:1;">
+                    <div style="font-weight:bold;font-size:14px;">#${idx+1} ${friend.name}</div>
+                    <div style="font-size:11px;color:var(--muted);">🟢 ${friend.status}</div>
+                </div>
+            </div>
+            <div style="text-align:right;">
+                <div style="color:var(--accent);font-weight:bold;">${friend.xp} XP</div>
+                <button style="margin-top:4px;padding:4px 8px;background:var(--accent);color:#042028;border:none;border-radius:4px;cursor:pointer;font-size:11px;font-weight:600;">Add Friend</button>
+            </div>
+        `;
+        li.addEventListener('mouseover', () => li.style.background = 'rgba(6,182,212,0.2)');
+        li.addEventListener('mouseout', () => li.style.background = 'rgba(6,182,212,0.1)');
+        friendsList.appendChild(li);
+    });
+    friendsCard.appendChild(friendsList);
+
+    // 5. Daily Quests
+    const questCard = document.createElement('div');
+    questCard.className = 'card enhanced-card';
+    questCard.style.marginTop = '12px';
+    questCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">⚔️ Daily Quests</h2>';
+    
+    const quests = [
+        { id: 1, title: 'Login Streak', progress: 12, target: 30, reward: '100 XP', icon: '📅' },
+        { id: 2, title: 'Quiz Completed', progress: 3, target: 5, reward: '150 XP', icon: '📝' },
+        { id: 3, title: 'Minutes Studied', progress: 60, target: 120, reward: '200 XP', icon: '⏱️' },
+        { id: 4, title: 'Problems Solved', progress: 25, target: 50, reward: '175 XP', icon: '🔢' }
+    ];
+    
+    quests.forEach(quest => {
+        const questItem = document.createElement('div');
+        questItem.style.cssText = 'padding:10px;margin:8px 0;border-radius:8px;background:rgba(255,255,255,0.02);';
+        
+        const percentage = Math.round((quest.progress / quest.target) * 100);
+        questItem.innerHTML = `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div>
+                    <div style="font-weight:bold;font-size:14px;">${quest.icon} ${quest.title}</div>
+                    <div style="font-size:12px;color:var(--muted);">${quest.progress}/${quest.target}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="color:var(--accent);font-weight:bold;font-size:12px;">${quest.reward}</div>
+                </div>
+            </div>
+            <div style="width:100%;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+                <div style="width:${percentage}%;height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);"></div>
+            </div>
+        `;
+        questCard.appendChild(questItem);
+    });
+
+    // 6. Power-Ups Store
+    const powerupCard = document.createElement('div');
+    powerupCard.className = 'card enhanced-card';
+    powerupCard.style.marginTop = '12px';
+    powerupCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">⚡ Power-Ups & Boosters</h2>';
+    
+    const powerups = [
+        { name: '2x XP Boost', icon: '2️⃣', cost: 250, duration: '1 hour' },
+        { name: 'Focus Mode', icon: '🎯', cost: 150, duration: '30 min' },
+        { name: 'Hint Unlock', icon: '💡', cost: 100, duration: 'Instant' },
+        { name: 'Skip Question', icon: '⏭️', cost: 200, duration: 'Instant' }
+    ];
+    
+    const powerupGrid = document.createElement('div');
+    powerupGrid.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px;';
+    
+    powerups.forEach(pu => {
+        const box = document.createElement('button');
+        box.style.cssText = `
+            padding:12px;border-radius:8px;border:1px solid var(--accent);
+            background:transparent;color:inherit;cursor:pointer;
+            transition:all 0.3s;font-weight:600;
+        `;
+        box.innerHTML = `
+            <div style="font-size:28px;margin-bottom:4px;">${pu.icon}</div>
+            <div style="font-size:12px;margin-bottom:4px;">${pu.name}</div>
+            <div style="color:var(--accent);font-size:13px;font-weight:bold;">${pu.cost} XP</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px;">${pu.duration}</div>
+        `;
+        box.addEventListener('mouseover', () => {
+            box.style.background = 'rgba(6,182,212,0.2)';
+            box.style.transform = 'translateY(-3px)';
+        });
+        box.addEventListener('mouseout', () => {
+            box.style.background = 'transparent';
+            box.style.transform = 'translateY(0)';
+        });
+        box.addEventListener('click', () => alert(`Purchased ${pu.name}!\nActive for ${pu.duration}`));
+        powerupGrid.appendChild(box);
+    });
+    powerupCard.appendChild(powerupGrid);
+
+    // 7. Monthly Challenge
+    const challengeCard = document.createElement('div');
+    challengeCard.className = 'card enhanced-card';
+    challengeCard.style.marginTop = '12px';
+    challengeCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🌟 January Challenge</h2>';
+    
+    const challengeContent = document.createElement('div');
+    challengeContent.innerHTML = `
+        <div style="padding:12px;border-radius:8px;background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(239,68,68,0.2));margin-bottom:12px;">
+            <div style="margin-bottom:8px;">
+                <strong>Solve 500 Problems This Month</strong>
+                <div style="font-size:12px;color:var(--muted);margin-top:4px;">Grand Prize: Premium Subscription + 2000 XP</div>
+            </div>
+            <div style="width:100%;height:12px;background:rgba(255,255,255,0.1);border-radius:6px;overflow:hidden;margin-bottom:6px;">
+                <div style="width:68%;height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);"></div>
+            </div>
+            <div style="text-align:right;font-size:12px;color:var(--muted);">340/500 problems solved</div>
+        </div>
+        <button style="width:100%;padding:10px;background:var(--accent);color:#042028;border:none;border-radius:8px;cursor:pointer;font-weight:600;">View Details & Rules</button>
+    `;
+    challengeCard.appendChild(challengeContent);
+
+    // 8. Referral Program
+    const referralCard = document.createElement('div');
+    referralCard.className = 'card enhanced-card';
+    referralCard.style.marginTop = '12px';
+    referralCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎁 Referral Program</h2>';
+    
+    const referralContent = document.createElement('div');
+    referralContent.innerHTML = `
+        <div style="padding:12px;border-radius:8px;background:rgba(6,182,212,0.1);margin-bottom:12px;">
+            <div style="margin-bottom:8px;">
+                <strong>Invite Friends & Earn Rewards</strong>
+                <p style="color:var(--muted);font-size:12px;margin:4px 0;">• +300 XP per successful referral</p>
+                <p style="color:var(--muted);font-size:12px;margin:4px 0;">• Bonus rewards after 5 referrals</p>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <input id="referralCode" type="text" value="BELLHAWKS2024" readonly style="flex:1;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.02);color:inherit;"/>
+                <button onclick="navigator.clipboard.writeText('BELLHAWKS2024');alert('Copied!');" style="padding:8px 12px;background:var(--accent);color:#042028;border:none;border-radius:6px;cursor:pointer;font-weight:600;">Copy</button>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:var(--muted);">Referrals: <strong style="color:var(--accent);">8/20</strong></div>
+        </div>
+    `;
+    referralCard.appendChild(referralContent);
+
+    // 9. Achievements Timeline
+    const timelineCard = document.createElement('div');
+    timelineCard.className = 'card enhanced-card';
+    timelineCard.style.marginTop = '12px';
+    timelineCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🏆 Achievement Timeline</h2>';
+    
+    const achievements = [
+        { date: 'Today', title: 'Level 10 Reached!', icon: '⭐', color: '#f59e0b' },
+        { date: 'Yesterday', title: '100 XP Earned', icon: '✨', color: '#a78bfa' },
+        { date: '2 days ago', title: 'Quiz Perfect Score', icon: '💯', color: '#10b981' },
+        { date: '5 days ago', title: '5 Day Streak Started', icon: '🔥', color: '#ef4444' }
+    ];
+    
+    const timeline = document.createElement('div');
+    timeline.style.cssText = 'margin-top:12px;position:relative;padding-left:20px;';
+    
+    achievements.forEach((ach, idx) => {
+        const item = document.createElement('div');
+        item.style.cssText = `
+            padding:12px;margin:8px 0;border-radius:8px;
+            background:rgba(255,255,255,0.02);
+            border-left:3px solid ${ach.color};
+            position:relative;
+        `;
+        item.innerHTML = `
+            <div style="font-weight:bold;font-size:13px;">${ach.icon} ${ach.title}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px;">${ach.date}</div>
+        `;
+        timeline.appendChild(item);
+    });
+    timelineCard.appendChild(timeline);
+
+    // 10. Skill Tree / Progression Path
+    const skillCard = document.createElement('div');
+    skillCard.className = 'card enhanced-card';
+    skillCard.style.marginTop = '12px';
+    skillCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🌳 Skill Tree</h2>';
+    
+    const skills = [
+        { level: 'Novice', locked: false, icon: '🟢', skills: ['Basic Math', 'Reading', 'Writing'] },
+        { level: 'Apprentice', locked: false, icon: '🟡', skills: ['Algebra', 'Analysis', 'Grammar'] },
+        { level: 'Expert', locked: true, icon: '🔴', skills: ['Calculus', 'Research', 'Composition'] },
+        { level: 'Master', locked: true, icon: '⚫', skills: ['Advanced Calculus', 'Thesis', 'Mastery'] }
+    ];
+    
+    const skillTree = document.createElement('div');
+    skillTree.style.cssText = 'display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px;';
+    
+    skills.forEach(skill => {
+        const skillBox = document.createElement('div');
+        skillBox.style.cssText = `
+            padding:12px;border-radius:8px;
+            background:${skill.locked ? 'rgba(107,114,128,0.1)' : 'rgba(6,182,212,0.1)'};
+            border:1px solid ${skill.locked ? 'rgba(107,114,128,0.3)' : 'var(--accent)'};
+            opacity:${skill.locked ? '0.6' : '1'};
+        `;
+        skillBox.innerHTML = `
+            <div style="font-size:20px;margin-bottom:4px;">${skill.icon}</div>
+            <div style="font-weight:bold;font-size:13px;margin-bottom:6px;">${skill.level} ${skill.locked ? '🔒' : ''}</div>
+            <div style="font-size:11px;color:var(--muted);line-height:1.4;">
+                ${skill.skills.map(s => `<div>• ${s}</div>`).join('')}
+            </div>
+        `;
+        skillTree.appendChild(skillBox);
+    });
+    skillCard.appendChild(skillTree);
+
+    const footer = section.querySelector('footer');
+    if (footer) {
+        section.insertBefore(spinCard, footer);
+        section.insertBefore(arcadeCard, footer);
+        section.insertBefore(badgesCard, footer);
+        section.insertBefore(friendsCard, footer);
+        section.insertBefore(questCard, footer);
+        section.insertBefore(powerupCard, footer);
+        section.insertBefore(challengeCard, footer);
+        section.insertBefore(referralCard, footer);
+        section.insertBefore(timelineCard, footer);
+        section.insertBefore(skillCard, footer);
+    }
+})();
+</script>
+<script>
+(function() {
+    const section = document.querySelector('main section');
+    if (!section) return;
+
+    // Custom Themes System
+    const themesCard = document.createElement('div');
+    themesCard.className = 'card enhanced-card';
+    themesCard.style.marginTop = '12px';
+    themesCard.innerHTML = '<h2 style="margin:0 0 8px;font-size:16px">🎨 Custom Themes</h2>';
+
+    const themes = [
+        {
+            name: 'Forest Green',
+            id: 'forest',
+            colors: { bg: '#1b4332', card: '#2d6a4f', accent: '#40916c', text: '#e8f5e9' },
+            icon: '🌲'
+        },
+        {
+            name: 'Ocean Blue',
+            id: 'ocean',
+            colors: { bg: '#0a1e3d', card: '#1a3a5c', accent: '#2e8bc0', text: '#e0f4ff' },
+            icon: '🌊'
+        },
+        {
+            name: 'Vintage Paper',
+            id: 'vintage',
+            colors: { bg: '#f5e6d3', card: '#d4a574', accent: '#8b6f47', text: '#3e2723' },
+            icon: '📜'
+        },
+        {
+            name: 'Sunset Purple',
+            id: 'sunset',
+            colors: { bg: '#2d1b69', card: '#4a235a', accent: '#c77dff', text: '#f0e6ff' },
+            icon: '🌅'
+        },
+        {
+            name: 'Matcha Green',
+            id: 'matcha',
+            colors: { bg: '#0f3d2e', card: '#1b6b4a', accent: '#52b788', text: '#f1faee' },
+            icon: '🍵'
+        },
+        {
+            name: 'Midnight Dark',
+            id: 'midnight',
+            colors: { bg: '#0d0d0d', card: '#1a1a1a', accent: '#00d9ff', text: '#f0f0f0' },
+            icon: '🌙'
+        }
+    ];
+
+    const themeStyle = document.createElement('style');
+    themeStyle.id = 'custom-theme-style';
+    document.head.appendChild(themeStyle);
+
+    const themeGrid = document.createElement('div');
+    themeGrid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:12px;';
+
+    themes.forEach(theme => {
+        const btn = document.createElement('button');
+        btn.style.cssText = `
+            padding:16px;border-radius:12px;border:2px solid transparent;
+            background:linear-gradient(135deg,${theme.colors.card},${theme.colors.bg});
+            color:${theme.colors.text};cursor:pointer;font-weight:600;
+            transition:all 0.3s;position:relative;overflow:hidden;
+        `;
+        btn.innerHTML = `
+            <div style="font-size:28px;margin-bottom:6px;">${theme.icon}</div>
+            <div style="font-size:12px;">${theme.name}</div>
+        `;
+
+        btn.addEventListener('mouseover', () => {
+            btn.style.transform = 'translateY(-4px)';
+            btn.style.boxShadow = `0 8px 16px ${theme.colors.accent}44`;
+            btn.style.borderColor = theme.colors.accent;
+        });
+        btn.addEventListener('mouseout', () => {
+            btn.style.transform = 'translateY(0)';
+            btn.style.boxShadow = 'none';
+            btn.style.borderColor = 'transparent';
+        });
+
+        btn.addEventListener('click', () => applyTheme(theme));
+        themeGrid.appendChild(btn);
+    });
+
+    themesCard.appendChild(themeGrid);
+
+    function applyTheme(theme) {
+        const css = `
+            :root {
+                --bg: ${theme.colors.bg};
+                --card: ${theme.colors.card};
+                --accent: ${theme.colors.accent};
+                --text: ${theme.colors.text};
+            }
+            
+            body {
+                background: linear-gradient(180deg, ${theme.colors.bg} 0%, ${theme.colors.card} 100%);
+                color: ${theme.colors.text};
+            }
+            
+            .card {
+                background: linear-gradient(180deg, ${theme.colors.card}dd, ${theme.colors.bg}dd);
+                color: ${theme.colors.text};
+            }
+            
+            .card:hover {
+                border-color: ${theme.colors.accent};
+                box-shadow: 0 0 20px ${theme.colors.accent}33;
+            }
+            
+            a {
+                color: ${theme.colors.accent};
+            }
+            
+            button {
+                transition: all 0.3s;
+            }
+            
+            input, textarea {
+                background: ${theme.colors.card}33 !important;
+                color: ${theme.colors.text} !important;
+                border-color: ${theme.colors.accent}44 !important;
+            }
+            
+            input::placeholder, textarea::placeholder {
+                color: ${theme.colors.text}77 !important;
+            }
+        `;
+
+        document.getElementById('custom-theme-style').textContent = css;
+        localStorage.setItem('selectedTheme', theme.id);
+
+        // Update button styles
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.style.background && !btn.style.background.includes(':-webkit')) {
+                btn.style.background = theme.colors.accent;
+                btn.style.color = theme.colors.bg;
+            }
+        });
+    }
+
+    // Load saved theme
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+        const theme = themes.find(t => t.id === savedTheme);
+        if (theme) applyTheme(theme);
+    }
+
+    const footer = section.querySelector('footer');
+    if (footer) section.insertBefore(themesCard, footer);
+})();
+</script>
